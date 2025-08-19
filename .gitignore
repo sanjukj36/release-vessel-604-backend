@@ -1,0 +1,30 @@
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Virtual environment
+venv/
+.env/
+.venv/
+env/
+ENV/
+
+# Environment variables
+.env
+
+# SQLite database
+*.db
+
+# Payload directories
+payload/
+payload_edit/
+
+# JSON files
+*.json
+
+# OS-specific files
+.DS_Store
+Thumbs.db
