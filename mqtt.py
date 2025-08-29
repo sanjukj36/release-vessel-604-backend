@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Path to your JSON file
-JSON_FILE_PATH = r"D:\development\React\for vessel\mqtt_live_data.json"
+JSON_FILE_PATH = r"C:\Mqtt\__data\mqtt_live_data.json"
 
 @app.route('/api/app/mqtt/data/', methods=['GET'])
 def mqtt_data_dummy():
