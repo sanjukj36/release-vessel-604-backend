@@ -4,7 +4,7 @@ import time
 from datetime import datetime
 
 # Output directory
-output_dir = r"D:\development\React\for vessel\backend\payload"
+output_dir = r"C:\vessel-604\release-vessel-604-backend\payload"
 
 # Make sure directory exists
 os.makedirs(output_dir, exist_ok=True)
