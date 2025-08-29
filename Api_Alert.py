@@ -192,4 +192,4 @@ def get_status():
 
 if __name__ == '__main__':
     # Bind to your LAN IP (as you had). Change if needed.
-    app.run(host='172.168.0.81', port=5002, debug=True, threaded=True, use_reloader=False)
+    app.run(host='172.168.0.81', port=5001, debug=True, threaded=True, use_reloader=False)
