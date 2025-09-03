@@ -29,4 +29,4 @@ while True:
 
     print(f"Generated: {filepath}")
 
-    time.sleep(10)  # wait 1 minute
+    time.sleep(60)  # wait 1 minute
