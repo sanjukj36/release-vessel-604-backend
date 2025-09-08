@@ -48,15 +48,11 @@ def now_str(dt=None):
     return (dt or datetime.now()).strftime("%H:%M:%S %d-%m-%Y")
 
 def check_internet_fast(timeout=INTERNET_SOCKET_TIMEOUT):
-    """
-    Quick connectivity check using TCP connects to common HTTPS IPs.
-    Uses only IPs (no DNS). Returns True on first success.
-    Falls back to recent ping results if TCP is filtered.
-    """
     targets = [
-        ("1.1.1.1", 443),   # Cloudflare
-        ("8.8.8.8", 443),   # Google
-        ("8.8.4.4", 443),   # Google secondary
+       ("1.1.1.1", 53),          # Cloudflare DNS (may be blocked in China)
+       ("114.114.114.114", 53),  # China DNS (China-friendly)
+       ("8.8.8.8", 53),          # Google DNS (may be blocked)
+       ("223.5.5.5", 53)         # Alibaba DNS (China-friendly)
     ]
     for host, port in targets:
         try:
@@ -65,11 +61,14 @@ def check_internet_fast(timeout=INTERNET_SOCKET_TIMEOUT):
         except OSError:
             continue
 
+    return False
+
+
     # Fallback: if any host pinged OK recently, assume basic internet
-    try:
-        return any(s.get("last_ping_ok") for s in host_state.values())
-    except Exception:
-        return False
+    # try:
+    #     return any(s.get("last_ping_ok") for s in host_state.values())
+    # except Exception:
+    #     return False
 
 def ping_ok(ip):
     """
@@ -193,3 +192,4 @@ def get_status():
 if __name__ == '__main__':
     # Bind to your LAN IP (as you had). Change if needed.
     app.run(host='172.168.0.81', port=5001, debug=True, threaded=True, use_reloader=False)
+    # app.run(host='192.168.18.143', port=5001, debug=True, threaded=True, use_reloader=False)
