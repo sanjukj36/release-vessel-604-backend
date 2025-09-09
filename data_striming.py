@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 # ---------------------- LOAD ENV ----------------------
 load_dotenv()
 
+INTERNET_SOCKET_TIMEOUT = 2.0      # tolerate ~1–2 s RTT
 BASE_URL = os.getenv("BASE_URL", "http://127.0.0.1:5004")
 API_URL = f"{BASE_URL}/api/table/create"
 PAYLOAD_DIR = os.getenv("PAYLOAD_DIR", r"./payload")
@@ -16,18 +17,33 @@ FAILED_DIR = os.getenv("FAILED_DIR", r"./payload_edit")
 # ------------------------------------------------------
 
 
-def check_internet():
-    """Check internet connectivity, with fallback for China (ping Baidu)."""
-    test_hosts = ["8.8.8.8", "1.1.1.1", "www.baidu.com"]
-    for host in test_hosts:
-        try:
-            socket.setdefaulttimeout(3)
-            socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, 80))
-            return True
-        except Exception:
-            continue
-    return False
+# def check_internet():
+#     """Check internet connectivity, with fallback for China (ping Baidu)."""
+#     test_hosts = ["8.8.8.8", "1.1.1.1", "www.baidu.com"]
+#     for host in test_hosts:
+#         try:
+#             socket.setdefaulttimeout(3)
+#             socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, 80))
+#             return True
+#         except Exception:
+#             continue
+#     return False
 
+def check_internet(timeout=INTERNET_SOCKET_TIMEOUT):
+    targets = [
+       ("1.1.1.1", 53),          # Cloudflare DNS (may be blocked in China)
+       ("114.114.114.114", 53),  # China DNS (China-friendly)
+       ("8.8.8.8", 53),          # Google DNS (may be blocked)
+       ("223.5.5.5", 53)         # Alibaba DNS (China-friendly)
+    ]
+    for host, port in targets:
+        try:
+            with socket.create_connection((host, port), timeout=timeout):
+                return True
+        except OSError:
+            continue
+
+    return False
 
 async def process_files():
     """Continuously process NDCTELE JSON files in order of timestamp."""

@@ -133,3 +133,4 @@ def update_status():
  
 if __name__ == '__main__':
     app.run(host='172.168.0.81', port=5004, debug=True)
+    # app.run(host='192.168.18.143', port=5004, debug=True)
