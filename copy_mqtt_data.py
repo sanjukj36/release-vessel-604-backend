@@ -16,7 +16,7 @@ def copy_with_current_time():
     formatted_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
     # Create new filename with current time
-    base_name = "mqtt_live_data"
+    base_name = "Mdc_Telle"
     new_filename = f"{base_name}_{formatted_time}.json"
     destination_file = os.path.join(destination_folder, new_filename)
 
@@ -27,4 +27,4 @@ def copy_with_current_time():
 if __name__ == "__main__":
     while True:
         copy_with_current_time()
-        time.sleep(6)  # wait 1 minute
+        time.sleep(60)  # wait 1 minute
