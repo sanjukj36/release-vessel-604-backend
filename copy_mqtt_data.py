@@ -16,7 +16,7 @@ def copy_with_current_time():
     formatted_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
     # Create new filename with current time
-    base_name = "Mdc_Telle"
+    base_name = "Mdc_Tele"
     new_filename = f"{base_name}_{formatted_time}.json"
     destination_file = os.path.join(destination_folder, new_filename)
 
